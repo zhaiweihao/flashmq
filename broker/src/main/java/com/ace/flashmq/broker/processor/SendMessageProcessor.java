@@ -20,13 +20,12 @@ public class SendMessageProcessor implements NettyRequestProcessor {
         this.brokerController = brokerController;
     }
 
-    public RemotingCommand processRequst(ChannelHandlerContext ctx, RemotingCommand request) throws Exception {
-        RemotingCommand response = new RemotingCommand();
+    public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) throws Throwable {
+        RemotingCommand response = RemotingCommand.createResponse();
         String topic = request.getHeader().getTopic();
         Message msg = RemotingSerializable.decode(request.getBody(), Message.class);
         this.brokerController.putMessage(topic, msg);
         response.setCode(ResponseCode.SUCCESS);
-
         return response;
     }
 }

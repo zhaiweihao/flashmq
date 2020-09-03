@@ -57,6 +57,7 @@ public class NettyRemotingClient extends NettyRemotingAbstract {
                 return response;
             }catch (Throwable e){
                 // todo log
+                System.out.println("invokeSync error ... ");
                 throw e;
             }
         } else{
@@ -77,24 +78,29 @@ public class NettyRemotingClient extends NettyRemotingAbstract {
         return createChannel(addr);
     }
 
-    private Channel createChannel(String addr) {
-        Channel channel = channelTable.get(addr);
-        if (channel != null) {
-            return channel;
-        }
-        synchronized (channelTable) {
-            channel = channelTable.get(addr);
-            if (channel == null) {
-                ChannelFuture channelFuture = this.bootstrap.connect(RemotingHelper.string2SocketAddress(addr));
-                channel = channelFuture.channel();
-                if (channel != null && channel.isActive()) {
-                    channelTable.put(addr, channel);
-                } else {
-                    channel = null;
+    private Channel createChannel(String addr){
+        try {
+            Channel channel = channelTable.get(addr);
+            if (channel != null) {
+                return channel;
+            }
+            synchronized (channelTable) {
+                channel = channelTable.get(addr);
+                if (channel == null) {
+                    ChannelFuture channelFuture = this.bootstrap.connect(RemotingHelper.string2SocketAddress(addr)).sync();
+                    channel = channelFuture.channel();
+                    if (channel != null && channel.isActive()) {
+                        channelTable.put(addr, channel);
+                    } else {
+                        channel = null;
+                    }
                 }
             }
+            return channel;
+        }catch (Throwable e){
+            System.out.println("create channel error ...");
         }
-        return channel;
+        return null;
     }
 
 

@@ -94,7 +94,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, RemotingCommand cmd) {
             // todo 处理消息
-            processResponseCommand(ctx, cmd);
+            processMessageReceived(ctx, cmd);
         }
     }
 }

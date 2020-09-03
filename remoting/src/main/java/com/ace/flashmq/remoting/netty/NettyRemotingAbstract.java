@@ -55,13 +55,15 @@ public abstract class NettyRemotingAbstract {
                                     ctx.writeAndFlush(response);
                                 }catch (Throwable e){
                                     // todo log
+                                    System.out.println("process request callback error ...");
                                 }
                             }
                         };
-                        RemotingCommand response = processor.processRequst(ctx, cmd);
+                        RemotingCommand response = processor.processRequest(ctx, cmd);
                         callback.callback(response);
-                    }catch (Exception e){
+                    }catch (Throwable e){
                         // todo log
+                        System.out.println("process request error ...");
                     }
                 }
             };
@@ -78,7 +80,7 @@ public abstract class NettyRemotingAbstract {
         }
     }
 
-    public RemotingCommand invokeSyncImpl(final Channel channel, final RemotingCommand request) throws Exception{
+    protected RemotingCommand invokeSyncImpl(final Channel channel, final RemotingCommand request) throws Exception{
         final int opaque = request.getOpaque();
 
         try{

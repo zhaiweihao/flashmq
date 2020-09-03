@@ -34,6 +34,7 @@ public class BrokerController {
     }
 
     public void start() throws Throwable{
+        registerProcessor();
         remotingServer.start();
     }
 

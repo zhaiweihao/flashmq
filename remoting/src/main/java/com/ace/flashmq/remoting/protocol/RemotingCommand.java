@@ -6,14 +6,17 @@ import io.netty.buffer.Unpooled;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author:ace
  * @date:2020-09-01
  */
 public class RemotingCommand {
+    private static AtomicInteger requestId = new AtomicInteger(0);
+
     private int code;
-    private int opaque;
+    private int opaque = requestId.incrementAndGet();
     private int flag = 0;
     private HashMap<Object, Object> extFields = new HashMap<Object, Object>();
     private CommandCustomHeader header;
@@ -68,6 +71,12 @@ public class RemotingCommand {
         result[1] = (byte) ((source >> 16) & 0xFF);
         result[2] = (byte) ((source >> 8) & 0xFF);
         result[3] = (byte) (source & 0xFF);
+        return result;
+    }
+
+    public static RemotingCommand createResponse() {
+        RemotingCommand result = new RemotingCommand();
+        result.setFlag(1);
         return result;
     }
 

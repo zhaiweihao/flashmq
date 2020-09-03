@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
  * @date:2020-09-02
  */
 public class ClientRemotingProcessor implements NettyRequestProcessor {
-    public RemotingCommand processRequst(ChannelHandlerContext ctx, RemotingCommand request) {
+    public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) {
         return null;
     }
 }

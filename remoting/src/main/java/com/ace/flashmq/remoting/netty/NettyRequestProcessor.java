@@ -8,5 +8,5 @@ import io.netty.channel.ChannelHandlerContext;
  * @date:2020-09-02
  */
 public interface NettyRequestProcessor {
-    RemotingCommand processRequst(ChannelHandlerContext ctx, RemotingCommand request) throws Exception;
+    RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) throws Throwable;
 }

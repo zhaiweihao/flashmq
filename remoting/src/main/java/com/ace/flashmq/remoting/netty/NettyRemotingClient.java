@@ -7,6 +7,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadFactory;
@@ -17,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date:2020-09-01
  */
 public class NettyRemotingClient extends NettyRemotingAbstract {
+    static final Log logger = LogFactory.getLog(NettyRemotingClient.class);
+
     private final Bootstrap bootstrap = new Bootstrap();
     private final EventLoopGroup eventLoopGroupWorker;
     private final ConcurrentHashMap<String, Channel> channelTable = new ConcurrentHashMap<>();
@@ -98,7 +102,7 @@ public class NettyRemotingClient extends NettyRemotingAbstract {
             }
             return channel;
         }catch (Throwable e){
-            System.out.println("create channel error ...");
+            logger.error("create channel error ...", e);
         }
         return null;
     }

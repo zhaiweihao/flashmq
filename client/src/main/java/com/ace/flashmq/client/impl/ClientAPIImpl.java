@@ -12,6 +12,8 @@ import com.ace.flashmq.remoting.protocol.RemotingCommand;
 import com.ace.flashmq.remoting.protocol.RemotingSerializable;
 import com.ace.flashmq.remoting.protocol.RequestCode;
 import com.ace.flashmq.remoting.protocol.ResponseCode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ import java.util.List;
  * @date:2020-09-02
  */
 public class ClientAPIImpl {
+    static final Log logger = LogFactory.getLog(ClientAPIImpl.class);
+
     private final NettyRemotingClient remotingClient;
 
     public ClientAPIImpl() {

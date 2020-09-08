@@ -5,6 +5,8 @@ import com.ace.flashmq.broker.processor.SendMessageProcessor;
 import com.ace.flashmq.common.message.Message;
 import com.ace.flashmq.remoting.netty.NettyRemotingServer;
 import com.ace.flashmq.remoting.protocol.RequestCode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.concurrent.*;
 
@@ -13,6 +15,8 @@ import java.util.concurrent.*;
  * @date:2020-09-02
  */
 public class BrokerController {
+    static final Log logger = LogFactory.getLog(BrokerController.class);
+
     private final NettyRemotingServer remotingServer;
     private final SendMessageProcessor sendMessageProcessor;
     private final PullMessageProcessor pullMessageProcessor;
@@ -52,8 +56,11 @@ public class BrokerController {
         if(queue == null){
             queue = new LinkedBlockingDeque<>();
             LinkedBlockingDeque<Message> origin = messageStore.putIfAbsent(topic, queue);
+
             if(origin != null){
                 queue = origin;
+            }else {
+                logger.info("create topic success, topicName : " + topic);
             }
         }
         queue.offer(msg);

@@ -1,4 +1,4 @@
-package com.ace.flashmq.client;
+package com.ace.flashmq.example;
 
 import com.ace.flashmq.client.consumer.DefaultConsumer;
 import com.ace.flashmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -10,6 +10,7 @@ import com.ace.flashmq.common.message.Message;
  * @date:2020-09-03
  */
 public class ConsumerExample {
+
     static final String BROKER = "localhost:8989";
     static final String TOPIC = "test-topic";
 

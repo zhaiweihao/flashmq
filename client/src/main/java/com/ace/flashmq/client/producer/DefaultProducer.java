@@ -5,12 +5,15 @@ import com.ace.flashmq.client.impl.ClientInstance;
 import com.ace.flashmq.client.impl.ClientManager;
 import com.ace.flashmq.common.message.Message;
 import com.ace.flashmq.remoting.CommandCustomHeader;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author:ace
  * @date:2020-09-02
  */
 public class DefaultProducer {
+    static final Log logger = LogFactory.getLog(DefaultProducer.class);
 
     private ClientInstance clientInstance;
 
@@ -24,8 +27,9 @@ public class DefaultProducer {
         try {
             clientInstance = ClientManager.getInstance().getOrCreateClientInstance(clientId);
             clientInstance.start();
+            logger.info("producer start success ...");
         } catch (Throwable e) {
-            System.out.println("producer start error ...");
+            logger.error("producer start error ...", e);
         }
     }
 
@@ -33,7 +37,7 @@ public class DefaultProducer {
         try {
             return sendDefault(msg);
         }catch (Throwable e){
-            System.out.println("producer send error ...");
+            logger.error("producer send error ...", e);
         }
         return null;
     }

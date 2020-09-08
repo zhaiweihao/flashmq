@@ -5,12 +5,16 @@ import com.ace.flashmq.client.impl.ClientInstance;
 import com.ace.flashmq.client.impl.ClientManager;
 import com.ace.flashmq.client.impl.ConsumeMessageConcurrentlyService;
 import com.ace.flashmq.remoting.CommandCustomHeader;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author:ace
  * @date:2020-09-03
  */
 public class DefaultConsumer {
+    static final Log logger = LogFactory.getLog(DefaultConsumer.class);
+
     private ClientInstance clientInstance;
     private ConsumeMessageServie consumeMessageServie;
     private MessageListenerConcurrently messageListener;
@@ -21,8 +25,9 @@ public class DefaultConsumer {
             clientInstance = ClientManager.getInstance().getOrCreateClientInstance(clientId);
             clientInstance.start();
             consumeMessageServie = new ConsumeMessageConcurrentlyService(messageListener);
+            logger.info("consumer start success ...");
         } catch (Throwable e) {
-            System.out.println("consumer start error ...");
+            logger.error("consumer start error ...", e);
         }
     }
 
@@ -48,7 +53,7 @@ public class DefaultConsumer {
             };
             pullMessageDefault(pullRequest, callback);
         }catch (Throwable e){
-            System.out.println("consumer pull message error ...");
+            logger.error("consumer pull message error ...", e);
         }
     }
 

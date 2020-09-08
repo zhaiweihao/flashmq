@@ -9,6 +9,8 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ThreadFactory;
@@ -19,6 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date:2020-09-01
  */
 public class NettyRemotingServer extends NettyRemotingAbstract {
+    static final Log logger = LogFactory.getLog(NettyRemotingServer.class);
+
     private final ServerBootstrap serverBootstrap;
     private final EventLoopGroup eventLoopGroupBoss;
     private final EventLoopGroup eventLoopGroupSelector;

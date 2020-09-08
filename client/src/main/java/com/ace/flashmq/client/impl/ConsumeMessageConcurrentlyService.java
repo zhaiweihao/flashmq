@@ -3,6 +3,8 @@ package com.ace.flashmq.client.impl;
 import com.ace.flashmq.client.consumer.ConsumeMessageServie;
 import com.ace.flashmq.client.consumer.listener.MessageListenerConcurrently;
 import com.ace.flashmq.common.message.Message;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -15,6 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date:2020-09-03
  */
 public class ConsumeMessageConcurrentlyService implements ConsumeMessageServie {
+    static final Log logger = LogFactory.getLog(ConsumeMessageConcurrentlyService.class);
+
     private final MessageListenerConcurrently messageListener;
     private final LinkedBlockingQueue<Runnable> consumeRequestQueue;
     private final ThreadPoolExecutor consumeExecutor;
@@ -56,8 +60,7 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageServie {
                 this.messageListener.consumeMessage(msg);
             });
         } catch (Throwable e) {
-            // todo log
-            System.out.println("concurrently consume error ...");
+            logger.error("concurrently consume error ...", e);
         }
     }
 }

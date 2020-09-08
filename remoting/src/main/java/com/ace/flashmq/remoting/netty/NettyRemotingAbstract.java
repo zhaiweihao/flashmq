@@ -5,6 +5,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.HashMap;
 import java.util.concurrent.*;
@@ -15,6 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date:2020-09-02
  */
 public abstract class NettyRemotingAbstract {
+    private static final Log logger = LogFactory.getLog(NettyRemotingAbstract.class);
+
     protected ConcurrentHashMap<Integer /* opaque*/, ResponseFuture> responseTable = new ConcurrentHashMap<>(64);
     protected HashMap<Integer /* request code */, NettyRequestProcessor> processorTable = new HashMap<Integer, NettyRequestProcessor>();
     protected ExecutorService processRequestThreadPool;
@@ -62,8 +66,7 @@ public abstract class NettyRemotingAbstract {
                         RemotingCommand response = processor.processRequest(ctx, cmd);
                         callback.callback(response);
                     }catch (Throwable e){
-                        // todo log
-                        System.out.println("process request error ...");
+                        logger.error("process request error ...", e);
                     }
                 }
             };

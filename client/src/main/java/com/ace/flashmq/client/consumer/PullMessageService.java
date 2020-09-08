@@ -1,6 +1,8 @@
 package com.ace.flashmq.client.consumer;
 
 import com.ace.flashmq.client.impl.ClientInstance;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.concurrent.*;
 
@@ -9,6 +11,7 @@ import java.util.concurrent.*;
  * @date:2020-09-03
  */
 public class PullMessageService implements Runnable {
+    static final Log logger = LogFactory.getLog(PullMessageService.class);
 
     private final ClientInstance clientInstance;
     private final LinkedBlockingQueue<PullRequest> pullRequestQueue = new LinkedBlockingQueue<>();
@@ -26,7 +29,6 @@ public class PullMessageService implements Runnable {
         try {
             this.pullRequestQueue.put(request);
         } catch (InterruptedException e) {
-
         }
     }
 
@@ -36,6 +38,7 @@ public class PullMessageService implements Runnable {
             consumer.pullMessage(request);
         } else {
             // todo log
+            logger.info("no consumer for topic " + request.getTopic());
         }
     }
 
@@ -45,7 +48,7 @@ public class PullMessageService implements Runnable {
                 PullRequest request = this.pullRequestQueue.take();
                 this.pullMessage(request);
             } catch (Throwable e) {
-                System.out.println("pull message service run error ...");
+                logger.error("pull message service run error ...", e);
             }
         }
     }

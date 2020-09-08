@@ -1,4 +1,4 @@
-package com.ace.flashmq.client;
+package com.ace.flashmq.example;
 
 import com.ace.flashmq.client.producer.DefaultProducer;
 import com.ace.flashmq.client.producer.SendResult;
